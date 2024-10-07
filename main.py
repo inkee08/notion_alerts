@@ -31,13 +31,26 @@ def get_pages(num_pages=None):
 
     return results
 
+def send_msg(alerts):
+    print(alerts)
+
 if __name__ == "__main__":
     pages = get_pages()
+    now = datetime.now().strftime('%Y-%m-%d')
+    alerts = []
 
     for page in pages:
-        page_id = page["id"]
-        props = page["properties"]
-        url = props["URL"]["title"][0]["text"]["content"]
-        title = props["Title"]["rich_text"][0]["text"]["content"]
-        published = props["Published"]["date"]["start"]
-        published = datetime.fromisoformat(published)
+        try:
+            prop = page['properties']
+            bean = prop['Name']['title'][0]['plain_text']
+            roaster = prop['Roaster']['rich_text'][0]['plain_text']
+            status = prop['Status']['status']['name']
+            rest_date = prop['Rested date']['formula']['date']['start'] # 2024-09-24
+        except:
+            continue
+
+        if status == 'Resting' and rest_date <= now:
+            alerts.append(f'{roaster} {bean}')
+        
+    if alerts:
+        send_msg(alerts)
