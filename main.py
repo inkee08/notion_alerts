@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, apprise
 from decouple import config
 from datetime import datetime
 
@@ -32,7 +32,22 @@ def get_pages(num_pages=None):
     return results
 
 def send_msg(alerts):
-    print(alerts)
+    beans = ' and '.join(alerts)
+
+    if len(alerts) == 1:
+        msg = f'{beans} is ready to use.'
+    else:
+        msg = f'{beans} are ready to use.'
+
+    apobj = apprise.Apprise()
+    hooks = list(config('WEB_HOOKS').split(','))
+    for i in hooks:
+        apobj.add(i)
+    
+    apobj.notify(
+        body=msg,
+        # title='Bean Alert!',
+    )
 
 if __name__ == "__main__":
     pages = get_pages()
@@ -51,6 +66,6 @@ if __name__ == "__main__":
 
         if status == 'Resting' and rest_date <= now:
             alerts.append(f'{roaster} {bean}')
-        
+    
     if alerts:
         send_msg(alerts)
