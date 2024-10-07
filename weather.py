@@ -60,12 +60,6 @@ if __name__ == "__main__":
         send_msg(title, msg)
     else:
         title = f'### Weather for {city}, {state}'
-        msg = f'''
-        Currently "**{cCondition}**", forecast "**{fCondition}**"
-        Wind; Current: {cWindDir} at {cWindSpeed} mph
-        Temp; Current: **{cTemp}** F, Min **{fTempMin}** F, Max **{fTempMax}** F
-        {fRainChance}% Chance of Rain
-        {fSnowChance}% Chance of Snow
-        '''
+        msg = f'Currently "**{cCondition}**", forecast "**{fCondition}**" \nWind; Current: {cWindDir} at {cWindSpeed} mph \nTemp; Current: **{cTemp}** °F, Min **{fTempMin}**°F, Max **{fTempMax}**°F \n{fRainChance}% Chance of Rain \n{fSnowChance}% Chance of Snow'
         
         send_msg(title, msg)
