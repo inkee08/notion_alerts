@@ -46,7 +46,7 @@ def send_msg(alerts):
         msg = f'{beans} are ready to use.'
 
     apobj = apprise.Apprise()
-    hooks = list(config('WEB_HOOKS').split(','))
+    hooks = list(config('NOTION_WEB_HOOKS').split(','))
     for i in hooks:
         apobj.add(i)
     
